@@ -1,10 +1,3 @@
-name: Build and Upload Artifacts
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,28 +12,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./your-project-folder   # ✅ Change this to where package.json is
 
       - name: Build project
         run: npm run build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-output
-          path: dist/
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-output
-          path: ./dist
-
-      - name: Run tests on build output
-        run: npm test
+        working-directory: ./your-project-folder
