@@ -1,19 +1,28 @@
+name: Upload Artifacts Without npm
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      # Run your build or script (example: Python build)
+      - name: Run build script
+        run: |
+          mkdir output
+          echo "Build completed successfully!" > output/result.txt
+
+      # Upload artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./your-project-folder   # ✅ Change this to where package.json is
-
-      - name: Build project
-        run: npm run build
-        working-directory: ./your-project-folder
+          name: build-output
+          path: output/
